@@ -5,10 +5,10 @@ import '../model/todo.dart';
 
 class ToDoTile extends StatelessWidget {
   final Todo task;
-  Function(bool?)? onChanged;
-  Function(BuildContext)? deleteFunction;
+  final Function(bool?)? onChanged;
+  final Function(BuildContext)? deleteFunction;
 
-  ToDoTile({
+  const ToDoTile({
     super.key,
     required this.task,
     required this.onChanged,
@@ -34,7 +34,7 @@ class ToDoTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Colors.yellow,
+            color: const Color(0xffe5e5e5),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(

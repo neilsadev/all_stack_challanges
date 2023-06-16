@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoallstackapp/view/todotile.dart';
 
 import '../model/todo.dart';
+import 'dialogue.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController controller = TextEditingController();
   List<Todo> taskList = [
     Todo(taskName: "sample task", taskCompleted: false),
     Todo(taskName: "Sample Task1", taskCompleted: false),
@@ -23,16 +25,16 @@ class _HomePageState extends State<HomePage> {
   // create a new task
   void createNewTask() {
     //Implement Create Task
-    // showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return DialogBox(
-    //       controller: _controller,
-    //       onSave: saveNewTask,
-    //       onCancel: () => Navigator.of(context).pop(),
-    //     );
-    //   },
-    // );
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: controller,
+          onSave: () {},
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
   }
 
   // delete task
@@ -42,13 +44,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[200],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('TO DO'),
+        title: const Text('TO DO', textDirection: TextDirection.ltr),
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: createNewTask,
         child: const Icon(Icons.add),
       ),
       body: ListView.builder(
