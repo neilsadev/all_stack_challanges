@@ -7,9 +7,9 @@ class ConnectionHelper {
   Future<Response<dynamic>?> fetchData(
     String method,
     String url, {
-    Map<String, dynamic>? data,
-    Map<String, dynamic>? query,
-    Map<String, dynamic>? header,
+    dynamic data,
+    dynamic query,
+    dynamic header,
   }) async {
     try {
       // Starting Timer
@@ -41,6 +41,7 @@ class ConnectionHelper {
               sendTimeout: const Duration(milliseconds: 30000),
               receiveTimeout: const Duration(milliseconds: 30000),
             ));
+        print(response);
       } else if (method.toUpperCase() == "PUT") {
         response = await dio.put(url,
             queryParameters: query,

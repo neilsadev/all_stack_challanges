@@ -18,7 +18,10 @@ class DataFetcher {
         try {
           for (var task in data) {
             taskList.add(
-              Todo(taskName: task["text"], taskCompleted: task["complete"]),
+              Todo(
+                  taskName: task["text"],
+                  taskCompleted: task["complete"],
+                  id: task["_id"]),
             );
           }
         } catch (e) {
@@ -39,10 +42,14 @@ class DataFetcher {
     return taskList;
   }
 
-  Future<MessageModule> createTask() async {
+  Future<MessageModule> createTask({
+    required String task,
+  }) async {
     MessageModule message =
         MessageModule(code: 000, message: "api wasnt called");
-    Response<dynamic>? response = await helper.fetchData("GET", API.baseUrl);
+    dynamic data = {"text": task};
+    Response<dynamic>? response =
+        await helper.fetchData("POST", API.baseUrl, data: data);
     if (response != null) {
       if (response.statusCode == 200) {
         message = MessageModule(code: 201, message: "Task Created");
@@ -65,7 +72,7 @@ class DataFetcher {
     MessageModule message =
         MessageModule(code: 000, message: "api wasnt called");
     Response<dynamic>? response =
-        await helper.fetchData("GET", API.baseUrl + id);
+        await helper.fetchData("DELETE", "${API.baseUrl}/$id");
     if (response != null) {
       if (response.statusCode == 200) {
         message = MessageModule(code: 200, message: "Task Deleted");
@@ -85,7 +92,7 @@ class DataFetcher {
   Future<MessageModule> deleteAllTask() async {
     MessageModule message =
         MessageModule(code: 000, message: "api wasnt called");
-    Response<dynamic>? response = await helper.fetchData("GET", API.baseUrl);
+    Response<dynamic>? response = await helper.fetchData("DELETE", API.baseUrl);
     if (response != null) {
       if (response.statusCode == 200) {
         message = MessageModule(code: 200, message: "All Task Deleted");
@@ -108,7 +115,7 @@ class DataFetcher {
     MessageModule message =
         MessageModule(code: 000, message: "api wasnt called");
     Response<dynamic>? response =
-        await helper.fetchData("GET", API.baseUrl + id);
+        await helper.fetchData("PUT", API.baseUrl + id);
     if (response != null) {
       if (response.statusCode == 200) {
         message = MessageModule(code: 200, message: "Action Completed");

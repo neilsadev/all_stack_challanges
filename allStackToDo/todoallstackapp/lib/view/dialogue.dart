@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todoallstackapp/view/button.dart';
 
 class DialogBox extends StatelessWidget {
   final TextEditingController controller;
-  final VoidCallback onSave;
+  final AsyncCallback onSave;
   final VoidCallback onCancel;
 
   const DialogBox({
