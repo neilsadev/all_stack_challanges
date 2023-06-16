@@ -41,6 +41,14 @@ class _HomePageState extends State<HomePage> {
   void deleteTask(int index) {
     //Implement delete task
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print('init');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
