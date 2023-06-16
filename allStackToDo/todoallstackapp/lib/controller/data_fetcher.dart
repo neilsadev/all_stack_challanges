@@ -115,7 +115,7 @@ class DataFetcher {
     MessageModule message =
         MessageModule(code: 000, message: "api wasnt called");
     Response<dynamic>? response =
-        await helper.fetchData("PUT", API.baseUrl + id);
+        await helper.fetchData("PUT", "${API.baseUrl}/$id");
     if (response != null) {
       if (response.statusCode == 200) {
         message = MessageModule(code: 200, message: "Action Completed");

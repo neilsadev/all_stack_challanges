@@ -27,13 +27,27 @@ class _HomePageState extends State<HomePage> {
     if (data.isNotEmpty) {
       setState(() {
         taskList = data;
-        isLoading = false;
       });
+    } else {
+      taskList = [];
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  void completeTask(bool? value, int index) {
+  void completeTask(int index) async {
     //Complete Task
+    MessageModule message =
+        await dataFetcher.completeTask(id: taskList[index].id);
+    if (message.code == 200) {
+      fetchTasks();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message.message),
+        ),
+      );
+    }
   }
 
   // create a new task
@@ -78,6 +92,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void deleteAllTask() async {
+    MessageModule message = await dataFetcher.deleteAllTask();
+    if (message.code == 200) {
+      fetchTasks();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message.message),
+        ),
+      );
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -92,6 +118,24 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('All Stack To Do', textDirection: TextDirection.ltr),
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              fetchTasks();
+            },
+            icon: const Icon(
+              Icons.refresh_sharp,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              deleteAllTask();
+            },
+            icon: const Icon(
+              Icons.delete,
+            ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNewTask,
@@ -105,16 +149,20 @@ class _HomePageState extends State<HomePage> {
               : const Center(
                   child: Text("You have no tasks right now, add one"),
                 )
-          : ListView.builder(
-              itemCount: taskList.length,
-              itemBuilder: (context, index) {
-                return ToDoTile(
-                  task: taskList[index],
-                  onChanged: (value) => completeTask(value, index),
-                  deleteFunction: (context) => deleteTask(index),
-                );
-              },
-            ),
+          : isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  itemCount: taskList.length,
+                  itemBuilder: (context, index) {
+                    return ToDoTile(
+                      task: taskList[index],
+                      onChanged: (value) => completeTask(index),
+                      deleteFunction: (context) => deleteTask(index),
+                    );
+                  },
+                ),
     );
   }
 }
