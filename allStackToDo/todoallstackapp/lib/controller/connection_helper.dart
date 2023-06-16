@@ -1,10 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ConnectionHelper {
   Future<Response<dynamic>?> fetchData(
@@ -25,22 +22,57 @@ class ConnectionHelper {
         return client;
       };
       // Request to API
-      late var response;
+      late dynamic response;
       if (method.toUpperCase() == "GET") {
         response = await dio.get(url,
-          queryParameters: query,
-          data: data,
-          options: Options(
-            headers: header,
-            sendTimeout: const Duration(milliseconds: 30000),
-            receiveTimeout: const Duration(milliseconds: 30000),
-          ));
+            queryParameters: query,
+            data: data,
+            options: Options(
+              headers: header,
+              sendTimeout: const Duration(milliseconds: 30000),
+              receiveTimeout: const Duration(milliseconds: 30000),
+            ));
       } else if (method.toUpperCase() == "POST") {
+        response = await dio.post(url,
+            queryParameters: query,
+            data: data,
+            options: Options(
+              headers: header,
+              sendTimeout: const Duration(milliseconds: 30000),
+              receiveTimeout: const Duration(milliseconds: 30000),
+            ));
       } else if (method.toUpperCase() == "PUT") {
+        response = await dio.put(url,
+            queryParameters: query,
+            data: data,
+            options: Options(
+              headers: header,
+              sendTimeout: const Duration(milliseconds: 30000),
+              receiveTimeout: const Duration(milliseconds: 30000),
+            ));
       } else if (method.toUpperCase() == "PATCH") {
+        response = await dio.patch(url,
+            queryParameters: query,
+            data: data,
+            options: Options(
+              headers: header,
+              sendTimeout: const Duration(milliseconds: 30000),
+              receiveTimeout: const Duration(milliseconds: 30000),
+            ));
       } else if (method.toUpperCase() == "DELETE") {
-      } else {}
-      var 
+        response = await dio.delete(url,
+            queryParameters: query,
+            data: data,
+            options: Options(
+              headers: header,
+              sendTimeout: const Duration(milliseconds: 30000),
+              receiveTimeout: const Duration(milliseconds: 30000),
+            ));
+      } else {
+        if (kDebugMode) {
+          print("no method mentioned");
+        }
+      }
 
       // Ending Timer
       DateTime etime = DateTime.now();
@@ -58,17 +90,7 @@ class ConnectionHelper {
       if (kDebugMode) {
         print(error);
       }
-      if (error.response != null) {
-      } else {
-        if (kDebugMode) {
-          print(error);
-        }
-      }
       return error.response;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
     }
   }
 }
