@@ -1,0 +1,22 @@
+GET http://localhost:3001/todos
+
+###
+
+POST http://localhost:3001/todo/new
+Content-Type: application/json
+
+{
+    "text": "Lorem Ipsum 2"
+}
+
+###
+
+DELETE http://localhost:3001/todo/delete/648c434d4e1de09c43d608e1
+
+###
+
+DELETE http://localhost:3001/todo/delete
+
+###
+
+PUT http://localhost:3001/todo/complete/648c452adff2ca0916aef780
